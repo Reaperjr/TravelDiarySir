@@ -146,6 +146,8 @@ export default {
 
       reader.onload = (e) => {
         this.image = e.target.result;
+        this.post.img = this.image;
+        console.log(this.post.img);
       };
       reader.readAsDataURL(fileObject);
     },

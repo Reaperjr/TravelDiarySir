@@ -16,5 +16,9 @@ export default {
   async insertPost(id,data) {
     let res = await axios.get("http://localhost:8000/insert/" + id,data);
     return res.data;
+  },
+  async DeletePost(id) {
+    let res = await axios.get("http://localhost:8000/insert/" + id);
+    return res.data;
   }
 }
