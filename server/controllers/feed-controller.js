@@ -3,17 +3,20 @@ const base = {};
 
 base.submit = async function (req, res) {
   
-  var subm = {
-    title: req.body.title,
-    lat: req.body.lat,
-    lng: req.body.lng,
-    obs: req.body.obs,
-    img: req.body.img,
+  var feed = {
     id_user: req.body.id_user,
-    data: req.body.data
+    title: req.body.title,
+    desc: req.body.desc,
+    partida: req.body.partida,
+    destino: req.body.destino,
+    pLat: req.body.pLat,
+    pLong: req.body.pLong,
+    dLat: req.body.dLat,
+    dLong: req.body.dLong,
+    img: req.body.img
   }
   
-  connection.query('INSERT INTO submissions SET ?', subm, function (error, results) {
+  connection.query('INSERT INTO viagens SET ?', feed, function (error, results) {
     if (error) {
       res.json({
         status: false,
@@ -30,7 +33,7 @@ base.submit = async function (req, res) {
 }
 
 base.getAll = async function (req, res) {
-  connection.query('SELECT id_submissions, assunto,lat,lng,obs,id_user,data, img FROM  submissions', function (error, results) {
+  connection.query('SELECT * FROM  viagens', function (error, results) {
     if (error) {
       res.json({
         status: false,
@@ -47,11 +50,11 @@ base.getAll = async function (req, res) {
 }
 
 
-base.getById = async function (req, res) {
+base.getFeedById = async function (req, res) {
   var id = {
-    id_user: req.params.id_user
+    id_viagens: req.params.id_viagens
   }
-  connection.query('SELECT id_submissions,assunto,lat,lng,obs,id_user,data FROM  submissions WHERE id_user = ?', [id.id_user], function (error, results) {
+  connection.query('SELECT * FROM  viagens WHERE id_viagens = ?', [id.id_viagens], function (error, results) {
     if (error) {
       res.json({
         status: false,
@@ -61,7 +64,26 @@ base.getById = async function (req, res) {
       res.json({
         status: true,
         data: results,
-        message: 'GetById successful'
+        message: 'GetFeedById successful'
+      })
+    }
+  });
+}
+base.getFeedUserById = async function (req, res) {
+  var id = {
+    id_user: req.params.id_user
+  }
+  connection.query('SELECT * FROM  viagens WHERE id_user = ?', [id.id_user], function (error, results) {
+    if (error) {
+      res.json({
+        status: false,
+        message: 'There are some error with query'
+      })
+    } else {
+      res.json({
+        status: true,
+        data: results,
+        message: 'GetFeedUserById successful'
       })
     }
   });
@@ -69,9 +91,9 @@ base.getById = async function (req, res) {
 
 base.delete = async function (req, res) {
   var id = {
-    id_submissions: req.params.id_submissions
+    id_viagens: req.params.id_viagens
   }
-  connection.query('DELETE FROM  submissions WHERE id_submissions = ?', [id.id_submissions], function (error, results) {
+  connection.query('DELETE FROM  viagens WHERE id_viagens = ?', [id.id_viagens], function (error, results) {
     if (error) {
       res.json({
         status: false,

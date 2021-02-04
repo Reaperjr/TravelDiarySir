@@ -9,7 +9,7 @@ base.login = async function (req, res) {
         if (error) {
             res.json({
                 status:false,
-                message:'There are some errors with query'
+                message:'Algum problema com a query'
             })
         }else{
             if(results.length >0){
@@ -17,7 +17,7 @@ base.login = async function (req, res) {
                     res.json({
                         status:true,
                         data:results,
-                        message: results[0].name + ' you have been successfully authenticated'
+                        message: results[0].nome + ' you have been successfully authenticated'
                     });
                 }else{
                     res.json({
@@ -41,9 +41,10 @@ base.register= async function(req,res){
             req.body.password = password;
         }
     var users={
-        name: req.body.name,
+        nome: req.body.name,
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        data_nasc: req.body.data_nasc
     }
     connection.query('INSERT INTO user SET ?', users, function (error, results) {
       if (error) {

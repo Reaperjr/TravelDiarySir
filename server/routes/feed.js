@@ -5,8 +5,9 @@ const router = express.Router();
 // routes
 router.post('/insert',FeedController.submit);
 router.get('/', FeedController.getAll);
-router.get('/:id_user', FeedController.getById);
-router.delete('/:id_viagem', FeedController.delete);
+router.get('/:id_viagens', FeedController.getFeedById);
+router.get('/:id_user', FeedController.getFeedUserById);
+router.delete('/:id_viagens', FeedController.delete);
 router.put('/updates', FeedController.updates);
 
 

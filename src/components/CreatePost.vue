@@ -33,6 +33,9 @@
                                 placeholder="Enter an an address, zipcode, or location"
                                 name="partida"
                                 api-key="AIzaSyDThTVxOOn3GXlVb_5YyNJ2AUg3V0OoGRc"
+                                @autocomplete-select="
+                                  PartidaaddressAutocompleteSearch
+                                "
                               ></place-autocomplete-field>
                             </div>
                             <div class="col form-group">
@@ -41,6 +44,9 @@
                                 placeholder="Enter an an address, zipcode, or location"
                                 name="destino"
                                 api-key="AIzaSyDThTVxOOn3GXlVb_5YyNJ2AUg3V0OoGRc"
+                                @autocomplete-select="
+                                  DestinyaddressAutocompleteSearch
+                                "
                               ></place-autocomplete-field>
                             </div>
                           </div>
@@ -70,7 +76,9 @@
                   </div>
                   <div v-else>
                     <h4>You submitted successfully!</h4>
-                    <button class="btn btn-success" @click="newData">Novo</button>
+                    <button class="btn btn-success" @click="newData">
+                      Novo
+                    </button>
                   </div>
                   <button @click="save" class="btn btn-dark btn-lg">
                     Submit
@@ -84,8 +92,7 @@
     </transition>
   </div>
 </template>
-
-    <script>
+<script>
 import FeedService from "../services/FeedService";
 export default {
   name: "CreatePost",
@@ -108,6 +115,16 @@ export default {
     };
   },
   methods: {
+    DestinyaddressAutocompleteSearch(place, address) {
+      this.post.dLat = address.geometry.location.lat();
+      this.post.dLong = address.geometry.location.lng();
+      console.log(this.post.dLat);
+    },
+    PartidaaddressAutocompleteSearch(place, address) {
+      this.post.pLat = address.geometry.location.lat();
+      this.post.pLong = address.geometry.location.lng();
+      console.log(this.post.pLat);
+    },
     save() {
       var data = {
         title: this.post.title,
@@ -118,7 +135,7 @@ export default {
         pLong: this.post.pLong,
         dLat: this.post.dLat,
         dLong: this.post.dLong,
-        
+        img: this.post.img,
       };
 
       FeedService.insertPost(data)
@@ -139,7 +156,6 @@ export default {
     handleImage(e) {
       const selectedImage = e.target.files[0]; // get first file
       this.createBase64Image(selectedImage);
-      
     },
     createBase64Image(fileObject) {
       const reader = new FileReader();
