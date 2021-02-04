@@ -49,7 +49,6 @@ base.getAll = async function (req, res) {
       datas.forEach(element => {
         base64.base64(element.img, function (err, data) {
           element.img = data;
-          return datas;
         }) 
       });
       res.json({

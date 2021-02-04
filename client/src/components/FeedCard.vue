@@ -2,9 +2,9 @@
   <div class="event-card">
     <div class="card">
       <div class="card-content">
-        <h2 class="is-size-4 has-text-weight-bold">{{ feed.name }}</h2>
-        <small class="event-date">{{ feed.date }}</small>
-        <span>{{ feed.location }}</span>
+        <h2 class="is-size-4 has-text-weight-bold">{{ feed.title }}</h2>
+        <small class="event-date">{{ feed.partida }}</small>
+        <span>{{ feed.destino }}</span>
       </div>
     </div>
   </div>
