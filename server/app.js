@@ -3,8 +3,17 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const cors = require("cors");
+var bodyParser = require('body-parser')
+
 
 var app = express();
+var corsOptions = {
+  origin: "http://localhost:8080"
+};
+
+app.use(cors(corsOptions));
+
 // route files
 var authRouter = require('./routes/auth');
 var feedRouter = require('./routes/feed');
@@ -14,8 +23,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 app.use(logger('dev'));
-app.use(express.json({limit: '10mb', extended: true}));
-app.use(express.urlencoded({ limit: '10mb', extended: true}));
+app.use(bodyParser.json({ limit: '10mb', extended: true}));
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: true}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 

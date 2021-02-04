@@ -20,6 +20,7 @@
                           <div class="form-group">
                             <label for="title">Title</label>
                             <input
+                              v-model="post.title"
                               type="text"
                               class="form-control"
                               id="title"
@@ -30,7 +31,8 @@
                             <div class="col form-group">
                               <label for="partida">Partida</label>
                               <place-autocomplete-field
-                                placeholder="Enter an an address, zipcode, or location"
+                                v-model="post.partida"
+                                placeholder="Enter starter location"
                                 name="partida"
                                 api-key="AIzaSyDThTVxOOn3GXlVb_5YyNJ2AUg3V0OoGRc"
                                 @autocomplete-select="
@@ -41,7 +43,8 @@
                             <div class="col form-group">
                               <label for="destino">Destino</label>
                               <place-autocomplete-field
-                                placeholder="Enter an an address, zipcode, or location"
+                                v-model="post.destino"
+                                placeholder="Enter destiny location"
                                 name="destino"
                                 api-key="AIzaSyDThTVxOOn3GXlVb_5YyNJ2AUg3V0OoGRc"
                                 @autocomplete-select="
@@ -53,6 +56,7 @@
                           <div class="form-group">
                             <label for="desc">Description</label>
                             <textarea
+                              v-model="post.desc"
                               type="text"
                               class="form-control"
                               id="desc"
@@ -77,7 +81,7 @@
                   <div v-else>
                     <h4>You submitted successfully!</h4>
                     <button class="btn btn-success" @click="newData">
-                      Novo
+                      Reset
                     </button>
                   </div>
                   <button @click="save" class="btn btn-dark btn-lg">
@@ -118,15 +122,15 @@ export default {
     DestinyaddressAutocompleteSearch(place, address) {
       this.post.dLat = address.geometry.location.lat();
       this.post.dLong = address.geometry.location.lng();
-      console.log(this.post.dLat);
     },
     PartidaaddressAutocompleteSearch(place, address) {
       this.post.pLat = address.geometry.location.lat();
       this.post.pLong = address.geometry.location.lng();
-      console.log(this.post.pLat);
     },
     save() {
+      var id ="1";
       var data = {
+        id_user: id,
         title: this.post.title,
         desc: this.post.desc,
         partida: this.post.partida,
@@ -137,7 +141,7 @@ export default {
         dLong: this.post.dLong,
         img: this.post.img,
       };
-
+    console.log(data);
       FeedService.insertPost(data)
         .then(() => {
           this.submitted = true;
