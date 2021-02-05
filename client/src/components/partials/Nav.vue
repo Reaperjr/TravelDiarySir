@@ -2,7 +2,7 @@
 <div class="navbar">
   <div class="left">
     <router-link :to="`/feed/${id}`" class="navbar-item">Home</router-link>
-    <router-link to="/my-trips" class="navbar-item">Minhas Viagens</router-link>
+    <router-link :to="`/my-trips/${id}`" class="navbar-item">Minhas Viagens</router-link>
   </div>
     <div class="right">
         <div class="dropdown">

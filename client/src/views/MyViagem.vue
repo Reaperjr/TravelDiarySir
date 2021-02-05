@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <Nav />
+    <Nav :id="this.$route.params.id" />
     <MyList />
   </div>
 </template>

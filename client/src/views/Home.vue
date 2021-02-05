@@ -48,7 +48,6 @@ export default {
       size: "big",
       modalOpen: false,
       submitted: false,
-      id: this.$route.params.id,
     };
   },
   methods: {

@@ -32,7 +32,7 @@ export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
-    { path: '/', redirect: { name: 'Home' }},
+    { path: '/', redirect: { name: 'Login' }},
     {
       path: '/feed/:id',
       name: 'Home',
@@ -59,7 +59,7 @@ export default new Router({
       component: FeedView
     },
     {
-      path: '/my-trips',
+      path: '/my-trips/:id',
       name: 'MyViagem',
       component: MyViagem
     },
