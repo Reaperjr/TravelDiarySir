@@ -3,14 +3,14 @@ const base64 = require('base64-img');
 const base = {};
 
 base.submit = async function (req, res) {
-  base64.img(req.body.img, '../server/images', Date.now(), function (err, filepath) {
-    const path = filepath.split('/');
-    const fileName = path[path.length - 1];
+  base64.img(req.body.img, '../client/src/images', Date.now(), function (err, filepath) {
+    const fileName = name;
     console.log(fileName);
     var feed = {
       id_user: req.body.id_user,
       title: req.body.title,
       desc: req.body.desc,
+      date: req.body.date,
       partida: req.body.partida,
       destino: req.body.destino,
       pLat: req.body.pLat,
@@ -65,6 +65,7 @@ base.getFeedById = async function (req, res) {
   var id = {
     id_viagens: req.params.id_viagens
   }
+  console.log(id);
   connection.query('SELECT * FROM  viagens WHERE id_viagens = ?', [id.id_viagens], function (error, results) {
     if (error) {
       res.json({

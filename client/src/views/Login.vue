@@ -7,6 +7,7 @@
           <div class="form-group">
             <label for="email">Email</label>
             <input
+              v-model="email"
               type="text"
               class="form-control"
               id="email"
@@ -14,10 +15,10 @@
               name="password"
             />
           </div>
-
           <div class="form-group">
             <label for="password">Password</label>
             <input
+              v-model="password"
               type="password"
               class="form-control"
               id="password"
@@ -41,9 +42,27 @@
 </template>
 
 <script>
+import AuthService from "../services/AuthService";
 export default {
   data() {
-    return {};
+    return {
+      email: "",
+      password:"",
+    };
+  },
+  methods: {
+    async login() {
+      var data ={
+        email: this.email,
+        password: this.password
+      }
+      console.log("inseide login method")
+      AuthService.login(data).then(
+        ((res) => {
+          this.$router.push({ path: `feed/${res.data[0].id_user}`})
+        })
+      );
+    },
   },
 };
 </script>

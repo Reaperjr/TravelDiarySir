@@ -1,7 +1,7 @@
 <template>
 <div class="navbar">
   <div class="left">
-    <router-link to="/feed" class="navbar-item">Home</router-link>
+    <router-link :to="`/feed/${id}`" class="navbar-item">Home</router-link>
     <router-link to="/my-trips" class="navbar-item">Minhas Viagens</router-link>
   </div>
     <div class="right">
@@ -18,6 +18,18 @@
 <script>
 export default {
     name: 'Nav',
+    props: [
+    'id'
+  ],
+    data(){
+      return{
+      }
+    },
+    methods:{
+      created(){
+        this.id = this.$route.params.id;
+      }
+    }
 }
 </script>
 <style lang="scss" scoped>

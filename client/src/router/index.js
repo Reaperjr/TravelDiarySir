@@ -8,6 +8,14 @@ import FeedView from '../views/FeedView.vue'
 import VuePlaceAutocomplete from 'vue-place-autocomplete';
 import VueFab from 'vue-float-action-button'
 import MyViagem from '../views/MyViagem.vue'
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+Vue.use(BootstrapVue)
+
+Vue.use(IconsPlugin)
 
 Vue.use(VuePlaceAutocomplete);
 Vue.use(VueFab, /* {
@@ -26,7 +34,7 @@ export default new Router({
   routes: [
     { path: '/', redirect: { name: 'Home' }},
     {
-      path: '/feed',
+      path: '/feed/:id',
       name: 'Home',
       component: Home
     },
@@ -46,7 +54,7 @@ export default new Router({
       component: ForgotPassword
     },
     {
-      path: '/feed/:id',
+      path: '/feed/view/:id',
       name: 'FeedView',
       component: FeedView
     },

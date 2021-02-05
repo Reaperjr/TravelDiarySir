@@ -3,7 +3,8 @@ import http from "./http-common";
 export default {
   async getAllFeed() {
     let res = await http.get("/feed/");
-    return res.data;
+    return res.data
+    
   },
   async getFeed(id) {
     let res = await http.get("/feed/" + id);

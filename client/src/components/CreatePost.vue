@@ -15,11 +15,11 @@
                 <div style="padding: 10px 10px" class="submit-form">
                   <div v-if="!submitted">
                     <section class="hero">
-                      <div class="hero-body">
                         <div class="container">
                           <div class="form-group">
                             <label for="title">Title</label>
                             <input
+                              required
                               v-model="post.title"
                               type="text"
                               class="form-control"
@@ -31,6 +31,7 @@
                             <div class="col form-group">
                               <label for="partida">Partida</label>
                               <place-autocomplete-field
+                                required
                                 v-model="post.partida"
                                 placeholder="Enter starter location"
                                 name="partida"
@@ -43,6 +44,7 @@
                             <div class="col form-group">
                               <label for="destino">Destino</label>
                               <place-autocomplete-field
+                                required
                                 v-model="post.destino"
                                 placeholder="Enter destiny location"
                                 name="destino"
@@ -56,13 +58,26 @@
                           <div class="form-group">
                             <label for="desc">Description</label>
                             <textarea
+                              required
                               v-model="post.desc"
                               type="text"
                               class="form-control"
                               id="desc"
-                              required
                               name="desc"
                             />
+                          </div>
+                          <div class="form-group">
+                            <label for="date">Date</label>
+                            <input
+                              @change="checkDOB"
+                              v-model="post.date"
+                              type="date"
+                              class="form-control"
+                              id="date"
+                              required
+                              name="date"
+                            />
+                            <div id="datep"></div>
                           </div>
                           <div class="card bg-white">
                             <img :src="image" />
@@ -74,7 +89,6 @@
                             />
                           </div>
                         </div>
-                      </div>
                     </section>
                     <div class="container"></div>
                   </div>
@@ -84,9 +98,19 @@
                       Reset
                     </button>
                   </div>
+                  <br>
                   <button @click="save" class="btn btn-dark btn-lg">
                     Submit
                   </button>
+                  <b-alert
+                    :show="dismissCountDown"
+                    dismissible
+                    variant="warning"
+                    @dismissed="dismissCountDown = 0"
+                    @dismiss-count-down="countDownChanged"
+                  >
+                    <p>Por favor preencha todos os campos</p>
+                  </b-alert>
                 </div>
               </div>
             </div>
@@ -105,6 +129,7 @@ export default {
       post: {
         title: "",
         desc: "",
+        date: "",
         partida: "",
         destino: "",
         pLat: "",
@@ -116,9 +141,18 @@ export default {
       myModel: false,
       submitted: false,
       image: null,
+      dismissSecs: 5,
+      dismissCountDown: 0,
+      showDismissibleAlert: false,
     };
   },
   methods: {
+    countDownChanged(dismissCountDown) {
+      this.dismissCountDown = dismissCountDown;
+    },
+    showAlert() {
+      this.dismissCountDown = this.dismissSecs;
+    },
     DestinyaddressAutocompleteSearch(place, address) {
       this.post.dLat = address.geometry.location.lat();
       this.post.dLong = address.geometry.location.lng();
@@ -127,32 +161,54 @@ export default {
       this.post.pLat = address.geometry.location.lat();
       this.post.pLong = address.geometry.location.lng();
     },
+    checkDOB() {
+      var dateString = document.getElementById("date").value;
+      var myDate = new Date(dateString);
+      var today = new Date();
+      if (myDate > today) {
+        $("#datep").after("<p>You cannot enter a date in the future!.</p>");
+        return false;
+      }
+      return true;
+    },
     save() {
-      var id ="1";
-      var data = {
-        id_user: id,
-        title: this.post.title,
-        desc: this.post.desc,
-        partida: this.post.partida,
-        destino: this.post.destino,
-        pLat: this.post.pLat,
-        pLong: this.post.pLong,
-        dLat: this.post.dLat,
-        dLong: this.post.dLong,
-        img: this.post.img,
-      };
-    console.log(data);
-      FeedService.insertPost(data)
-        .then(() => {
-          this.submitted = true;
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+      if (
+        this.post.titlle == "" ||
+        this.post.partida == "" ||
+        this.post.destino == "" ||
+        this.post.date == "" ||
+        this.post.img == ""
+      ) {
+        this.showAlert();}else{
+          var id = "1";
+        var data = {
+          id_user: id,
+          title: this.post.title,
+          desc: this.post.desc,
+          date: this.post.date,
+          partida: this.post.partida,
+          destino: this.post.destino,
+          pLat: this.post.pLat,
+          pLong: this.post.pLong,
+          dLat: this.post.dLat,
+          dLong: this.post.dLong,
+          img: this.post.img,
+        };
+        console.log(data);
+        FeedService.insertPost(data)
+          .then(() => {
+            this.submitted = true;
+            data = {};
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+        }
     },
     newData() {
       this.submitted = false;
       this.post = {};
+      this.post.img = "";
     },
     show() {
       this.myModel = true;

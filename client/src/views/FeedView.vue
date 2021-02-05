@@ -45,10 +45,15 @@ export default {
  
   methods: {
     async getFeedData() {
-      FeedService.getFeed(this.$route.params.id_viagens)
+      FeedService.getFeed(this.$route.params.id)
       .then(
         (feed => {
-          this.$set(this, "feed", feed);
+          feed.data.forEach(element => {
+            var path = "../../"+element.img;
+            element.img = path.replace(/\\/g, "/");     
+          });
+          console.log(feed);
+          this.$set(this, "feed", feed.data);
         }).bind(this)
       );
     }

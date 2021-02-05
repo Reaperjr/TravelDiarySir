@@ -33,6 +33,9 @@ const standardRoute = '/api/';
 app.use(standardRoute + 'auth/', authRouter);
 app.use(standardRoute + 'feed/', feedRouter);
 
+app.use(standardRoute + 'image/:name', (req, res)=>{
+  res.sendFile(__dirname + `/images/${req.params.name}`)
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,7 +1,7 @@
 <template>
   <div class="events container">
     <div id="header">
-      <h2 class="subtitle is-3">Check out our upcoming events</h2>
+      <img src="../assets/logotipo_and_name.png">
     </div>
     <div class="columns is-multiline">
       <div
@@ -10,7 +10,7 @@
         :key="feed.id_viagens"
         class="column is-half"
       >
-        <router-link :to="'/feed/' + feed.id_viagens">
+        <router-link :to="`/feed/view/${feed.id_viagens}`">
           <FeedCard :feed="feed" />
         </router-link>
       </div>
@@ -33,13 +33,15 @@ export default {
   },
   created() {
     this.getFeedsData();
+    
   },
   methods: {
     async getFeedsData() {
       FeedService.getAllFeed()
       .then(
         (feeds => {
-          this.$set(this, "feeds", feeds);
+          this.$set(this, "feeds", feeds.data);
+          
         }).bind(this)
       );
     }
@@ -47,6 +49,10 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+img{
+  height: 15%;
+  width: 15%;
+}
 .events {
   margin-top: 100px;
   text-align: center;

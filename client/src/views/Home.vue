@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <Nav />
+    <Nav :id="this.$route.params.id" />
     <FeedList />
     <modal ref="modalComponent" />
     <vue-fab :mainBtnColor="mainBtnColor" :icon="icon" :size="size">
@@ -47,7 +47,8 @@ export default {
       mainBtnColor: "#3eaf7c",
       size: "big",
       modalOpen: false,
-       submitted: false,
+      submitted: false,
+      id: this.$route.params.id,
     };
   },
   methods: {
@@ -60,5 +61,8 @@ export default {
 
 
 <style lang="scss" scoped>
+template{
+  background-color: aqua;
+}
 </style>
 

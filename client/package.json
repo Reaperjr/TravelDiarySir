@@ -10,11 +10,12 @@
   "dependencies": {
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
+    "bootstrap-vue": "^2.21.2",
     "bulma": "^0.9.1",
     "core-js": "^3.6.5",
     "element-ui": "^2.15.0",
     "google-maps-api-loader": "^1.1.1",
-    "vue": "^2.6.11",
+    "vue": "^2.6.12",
     "vue-file-base64": "^1.0.2",
     "vue-float-action-button": "^0.7.8",
     "vue-google-autocomplete": "^1.1.0",
