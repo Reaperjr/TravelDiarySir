@@ -1,5 +1,6 @@
 var connection = require('../config/config');
 var bcrypt = require('bcrypt');
+var jwt = require('jsonwebtoken');
 const base = {};
 const saltRounds = 10;
 
@@ -16,9 +17,11 @@ base.login = async function (req, res) {
             console.log(results[0]);
             if(results.length >0){
                 if (await bcrypt.compare(userData.password, results[0].password)){
-                    
+                    let token = jwt.sign({ id: results[0].id_user }, 'supersecret', {expiresIn: 86400 // expires in 24 hours
+                    });
                     res.json({
                         status:true,
+                        token: token,
                         data:results,
                         message: results[0].nome + ' you have been successfully authenticated'
                     });

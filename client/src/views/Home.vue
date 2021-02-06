@@ -1,8 +1,8 @@
 <template>
   <div class="home">
     <Nav :id="this.$route.params.id" />
-    <FeedList />
-    <modal ref="modalComponent" />
+    <FeedList :id="this.$route.params.id"/>
+    <modal :id="this.$route.params.id" ref="modalComponent" />
     <vue-fab :mainBtnColor="mainBtnColor" :icon="icon" :size="size">
       <fab-item
         v-for="(item, idx) in items"

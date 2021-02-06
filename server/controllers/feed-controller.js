@@ -3,9 +3,9 @@ const base64 = require('base64-img');
 const base = {};
 
 base.submit = async function (req, res) {
-  base64.img(req.body.img, '../client/src/images', Date.now(), function (err, filepath) {
+  base64.img(req.body.img, '../server/images',Date.now(), function (err, filepath) {
+    var name = filepath.split("\\").pop();
     const fileName = name;
-    console.log(fileName);
     var feed = {
       id_user: req.body.id_user,
       title: req.body.title,

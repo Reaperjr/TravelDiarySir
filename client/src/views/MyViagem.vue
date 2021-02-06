@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <Nav :id="this.$route.params.id" />
-    <MyList />
+    <MyList :id="this.$route.params.id"/>
   </div>
 </template>
 <script>

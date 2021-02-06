@@ -14,7 +14,8 @@
 <script>
   export default {
      props: [
-    'feed'
+    'feed',
+    'id'
   ],
   data() {
     return {

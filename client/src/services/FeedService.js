@@ -11,7 +11,7 @@ export default {
     return res.data;
   },
   async getFeedUser(id) {
-    let res = await http.get("/feed/" + id);
+    let res = await http.get("/feed/user/" + id);
     return res.data;
   },
   async insertPost(data) {

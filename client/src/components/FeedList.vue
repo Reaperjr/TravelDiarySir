@@ -10,7 +10,7 @@
         :key="feed.id_viagens"
         class="column is-half"
       >
-        <router-link :to="`/feed/view/${feed.id_viagens}`">
+        <router-link :to="`/feed/${id}/view/${feed.id_viagens}`">
           <FeedCard :feed="feed" />
         </router-link>
       </div>
@@ -25,6 +25,9 @@ export default {
   components: {
     FeedCard,
   },
+  props: [
+    'id'
+  ],
   data() {
     return {
       feed: {},

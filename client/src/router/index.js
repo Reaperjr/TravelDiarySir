@@ -54,7 +54,7 @@ export default new Router({
       component: ForgotPassword
     },
     {
-      path: '/feed/view/:id',
+      path: '/feed/:id/view/:id_viagens',
       name: 'FeedView',
       component: FeedView
     },

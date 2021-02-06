@@ -147,6 +147,9 @@ export default {
     };
   },
   methods: {
+    create(){
+      console.log(id);
+    },
     countDownChanged(dismissCountDown) {
       this.dismissCountDown = dismissCountDown;
     },
@@ -180,9 +183,8 @@ export default {
         this.post.img == ""
       ) {
         this.showAlert();}else{
-          var id = "1";
         var data = {
-          id_user: id,
+          id_user: this.$route.params.id,
           title: this.post.title,
           desc: this.post.desc,
           date: this.post.date,
