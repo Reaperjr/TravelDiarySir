@@ -8,6 +8,7 @@ import FeedView from '../views/FeedView.vue'
 import VuePlaceAutocomplete from 'vue-place-autocomplete';
 import VueFab from 'vue-float-action-button'
 import MyViagem from '../views/MyViagem.vue'
+import Profile from '../views/Profile.vue'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 
 import 'bootstrap/dist/css/bootstrap.css'
@@ -27,41 +28,69 @@ Vue.use(VueFab, /* {
 
 Vue.use(Router)
 
-
-export default new Router({
+let router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
-    { path: '/', redirect: { name: 'Login' }},
+    { path: '/', redirect: { name: 'Login' } },
     {
       path: '/feed/:id',
       name: 'Home',
-      component: Home
+      component: Home,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/login',
       name: 'Login',
-      component: Login
+      component: Login,
+      meta: {
+        guest: true
+    }
     },
     {
       path: '/register',
       name: 'Register',
-      component: Register
+      component: Register,
+      meta: {
+        guest: true
+    }
     },
     {
       path: '/forgot-password',
       name: 'ForgotPassword',
-      component: ForgotPassword
+      component: ForgotPassword,
+      meta: {
+        guest: true
+    }
+    },
+    {
+      path: '/profile/:id',
+      name: 'Profile',
+      component: Profile,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/feed/:id/view/:id_viagens',
       name: 'FeedView',
-      component: FeedView
+      component: FeedView,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/my-trips/:id',
       name: 'MyViagem',
-      component: MyViagem
+      component: MyViagem,
+      meta: {
+        requiresAuth: true
+      }
     },
   ]
 })
+
+
+export default router

@@ -10,6 +10,11 @@
             </h1>
             <h2 class="subtitle"><strong>Date:</strong> {{ feed.date }}</h2>
           </div>
+          <div v-if="this.$route.params.id == id" class="right">
+            <button type="button" @click="delet" class="btn btn-dark">
+              Delete
+            </button>
+          </div>
         </div>
       </section>
       <section class="event-content">
@@ -41,6 +46,8 @@ export default {
   },
   data() {
     return {
+      id: "",
+      id_viagens:"",
       feed: {},
       mapConfig: {
         center: this.mapCenter,
@@ -133,14 +140,25 @@ export default {
   },
   created() {
     this.getFeedData();
+    
   },
   methods: {
     initMap() {
-      this.map = new google.maps.Map(document.getElementById('map'), this.mapConfig)
+      this.map = new google.maps.Map(
+        document.getElementById("map"),
+        this.mapConfig
+      );
+    },
+    delet() {
+      FeedService.DeletePost(this.id_viagens).then(() => {
+        this.$router.push({ path: `feed/${this.$route.params.id}` });
+      });
     },
     async getFeedData() {
       FeedService.getFeed(this.$route.params.id_viagens).then(
         ((feed) => {
+          this.id = feed.data[0].id_user;
+          this.id_viagens = feed.data[0].id_viagens;
           this.$set(this, "feed", feed.data[0]);
         }).bind(this)
       );

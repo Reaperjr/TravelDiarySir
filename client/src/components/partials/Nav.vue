@@ -8,7 +8,7 @@
         <div class="dropdown">
           <a  class="dropbtn">Dropdown</a>
            <div class="dropdown-content">
-      <a href="/login">Login</a>
+      <router-link :to="`/profile/${id}`">Profile</router-link>
       <a href="#">Logout</a>
     </div>
       </div>

@@ -47,21 +47,27 @@ export default {
   data() {
     return {
       email: "",
-      password:"",
+      password: "",
     };
   },
   methods: {
     async login() {
-      var data ={
+      var data = {
         email: this.email,
-        password: this.password
-      }
-      console.log("inseide login method")
-      AuthService.login(data).then(
-        ((res) => {
-          this.$router.push({ path: `feed/${res.data[0].id_user}`})
-        })
-      );
+        password: this.password,
+      };
+      console.log("inseide login method");
+      AuthService.login(data).then((res) => {
+        localStorage.setItem("jwt", res.data.token);
+        if (localStorage.getItem("jwt") != null) {
+          this.$emit("loggedIn");
+          if (this.$route.params.nextUrl != null) {
+            this.$router.push(this.$route.params.nextUrl);
+          } else {
+            this.$router.push({ path: `feed/${res.data[0].id_user}` });
+          }
+        }
+      });
     },
   },
 };

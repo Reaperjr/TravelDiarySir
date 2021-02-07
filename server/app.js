@@ -17,6 +17,7 @@ app.use(cors(corsOptions));
 // route files
 var authRouter = require('./routes/auth');
 var feedRouter = require('./routes/feed');
+var userRouter = require('./routes/user');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -32,9 +33,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 const standardRoute = '/api/';
 app.use(standardRoute + 'auth/', authRouter);
 app.use(standardRoute + 'feed/', feedRouter);
+app.use(standardRoute + 'user/', userRouter);
 
 app.use(standardRoute + 'image/:name', (req, res)=>{
   res.sendFile(__dirname + `/images/${req.params.name}`)
+});
+app.use(standardRoute + 'user/image/:name', (req, res)=>{
+  res.sendFile(__dirname + `/users/${req.params.name}`)
 });
 
 // catch 404 and forward to error handler

@@ -121,24 +121,4 @@ base.delete = async function (req, res) {
   });
 }
 
-base.updates = async function (req, res) {
-
-  var data = [req.body.assunto, req.body.obs, req.body.img, req.body.data, req.body.id_submissions]
-  console.log(data);
-  connection.query('UPDATE submissions SET assunto=?, obs=?, img=?, data=? WHERE id_submissions=?', data, function (error, results) {
-    if (error) {
-      res.json({
-        status: false,
-        message: 'There are some error with query'
-      })
-    } else {
-      res.json({
-        status: true,
-        data: results,
-        message: 'Update sucessfully'
-      })
-    }
-  });
-}
-
 module.exports = base;

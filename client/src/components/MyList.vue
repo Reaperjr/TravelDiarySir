@@ -1,7 +1,7 @@
 <template>
   <div class="events container">
-    <div id="header">
-      <img src="../assets/logotipo_and_name.png">
+    <div v-if="length == 0" id="header">
+      <h2 class="center subtitle is-3">Não tem nenhumas viagens criadas</h2>
     </div>
     <div class="columns is-multiline">
       <div
@@ -11,7 +11,7 @@
         class="column is-half"
       >
         <router-link :to="`/feed/${id}/view/${feed.id_viagens}`">
-          <FeedCard  :feed="feed" />
+          <FeedCard :feed="feed" />
         </router-link>
       </div>
     </div>
@@ -25,34 +25,31 @@ export default {
   components: {
     FeedCard,
   },
-  props: [
-    'id'
-  ],
+  props: ["id"],
   data() {
     return {
+      length:"",
       feed: {},
       feeds: [],
     };
   },
   created() {
     this.getFeedsData();
-    
   },
   methods: {
     async getFeedsData() {
-      FeedService.getFeedUser(this.$route.params.id)
-      .then(
-        (feeds => {
+      FeedService.getFeedUser(this.$route.params.id).then(
+        ((feeds) => {
+          this.length = feeds.data.length;
           this.$set(this, "feeds", feeds.data);
-          
         }).bind(this)
       );
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
-img{
+img {
   height: 15%;
   width: 15%;
 }
