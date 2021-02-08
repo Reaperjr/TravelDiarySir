@@ -16,6 +16,7 @@
     "element-ui": "^2.15.0",
     "google-maps-api-loader": "^1.1.1",
     "vue": "^2.6.12",
+    "vue-cookies": "^1.7.4",
     "vue-file-base64": "^1.0.2",
     "vue-float-action-button": "^0.7.8",
     "vue-google-autocomplete": "^1.1.0",

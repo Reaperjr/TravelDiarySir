@@ -37,7 +37,6 @@ base.edit = async function (req, res) {
             req.body.pais,
             req.body.id_user
         ]
-
         connection.query('UPDATE user SET nome=?, email=?,password=?, img=?, data_nasc=?, pais=? WHERE id_user=?', user, function (error, results) {
             if (error) {
                 res.json({

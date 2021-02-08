@@ -13,5 +13,8 @@ export default {
     Nav,
     MyList
   },
+  mounted() {
+    if (this.$store.getters.getToken == "") this.$router.push("/login");
+  },
 }
 </script>

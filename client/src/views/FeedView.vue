@@ -138,9 +138,9 @@ export default {
       },
     };
   },
-  created() {
-    this.getFeedData();
-    
+  mounted() {
+    if (this.$store.getters.getToken == "") this.$router.push("/login");
+     this.getFeedData();
   },
   methods: {
     initMap() {

@@ -50,23 +50,18 @@ export default {
       password: "",
     };
   },
+  mounted() {
+    if (this.$store.getters.getToken != "") this.$router.push({ path: `feed/${res.data[0].id_user}` });
+  },
   methods: {
     async login() {
       var data = {
         email: this.email,
         password: this.password,
       };
-      console.log("inseide login method");
       AuthService.login(data).then((res) => {
-        localStorage.setItem("jwt", res.data.token);
-        if (localStorage.getItem("jwt") != null) {
-          this.$emit("loggedIn");
-          if (this.$route.params.nextUrl != null) {
-            this.$router.push(this.$route.params.nextUrl);
-          } else {
-            this.$router.push({ path: `feed/${res.data[0].id_user}` });
-          }
-        }
+        this.$store.dispatch("login", res.data.token);
+        this.$router.push({ path: `feed/${res.data[0].id_user}` });
       });
     },
   },

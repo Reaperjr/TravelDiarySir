@@ -13,6 +13,7 @@
           <div class="profile-head">
             <h5>{{ user.nome }}</h5>
             <h6>{{ user.pais }}</h6>
+            <h7>{{ user.data_nasc }}</h7>
             <p class="profile-email">
               EMAIL: <span>{{ user.email }}</span>
             </p>
@@ -47,8 +48,9 @@ export default {
       image: "",
     };
   },
-  created() {
-    this.getUserData();
+  mounted() {
+    if (this.$store.getters.getToken == "") this.$router.push("/login");
+     this.getUserData();
   },
   methods: {
     clickItem: function () {

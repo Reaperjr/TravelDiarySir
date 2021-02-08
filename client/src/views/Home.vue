@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <Nav :id="this.$route.params.id" />
-    <FeedList :id="this.$route.params.id"/>
+    <FeedList :id="this.$route.params.id" />
     <modal :id="this.$route.params.id" ref="modalComponent" />
     <vue-fab :mainBtnColor="mainBtnColor" :icon="icon" :size="size">
       <fab-item
@@ -50,6 +50,9 @@ export default {
       submitted: false,
     };
   },
+  mounted() {
+    if (this.$store.getters.getToken == "") this.$router.push("/login");
+  },
   methods: {
     clickItem: function () {
       this.$refs.modalComponent.show();
@@ -60,7 +63,7 @@ export default {
 
 
 <style lang="scss" scoped>
-template{
+template {
   background-color: aqua;
 }
 </style>
