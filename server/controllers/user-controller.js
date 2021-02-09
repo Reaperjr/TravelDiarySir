@@ -4,35 +4,44 @@ var bcrypt = require('bcrypt');
 const base = {};
 const saltRounds = 10;
 
-base.updates = async function (req, res) {
-
-    var data = [req.body.assunto, req.body.obs, req.body.img, req.body.data, req.body.id_submissions]
-    console.log(data);
-    connection.query('UPDATE submissions SET assunto=?, obs=?, img=?, data=? WHERE id_submissions=?', data, function (error, results) {
-        if (error) {
-            res.json({
-                status: false,
-                message: 'There are some error with query'
-            })
-        } else {
-            res.json({
-                status: true,
-                data: results,
-                message: 'Update sucessfully'
-            })
-        }
-    });
-}
 base.edit = async function (req, res) {
-    let password = await bcrypt.hash(req.body.password, saltRounds);
-    base64.img(req.body.img, '../server/users', Date.now(), function (err, filepath) {
-        var name = filepath.split("\\").pop();
-        const fileName = name;
+    let password = req.body.password;
+    if (password != "") {
+        password = await bcrypt.hash(req.body.password, saltRounds);
+    }
+    if (req.body.img != "") {
+        base64.img(req.body.img, '../server/users', Date.now(), function (err, filepath) {
+            var name = filepath.split("\\").pop();
+            const fileName = name;
+            var user = [
+                req.body.nome,
+                password,
+                fileName,
+                req.body.data_nasc,
+                req.body.pais,
+                req.body.id_user
+            ]
+            connection.query('UPDATE user SET nome=?, password=?, img=?, data_nasc=?, pais=? WHERE id_user=?', user, function (error, results) {
+                if (error) {
+                    res.json({
+                        status: false,
+                        message: 'There are some error with query'
+                    })
+                } else {
+                    res.json({
+                        status: true,
+                        data: results,
+                        message: 'Update sucessfully'
+                    })
+                }
+            });
+        })
+    } else {
         var user = [
             req.body.nome,
             req.body.email,
             password,
-            fileName,
+            req.body.img,
             req.body.data_nasc,
             req.body.pais,
             req.body.id_user
@@ -51,7 +60,7 @@ base.edit = async function (req, res) {
                 })
             }
         });
-    })
+    }
 }
 
 base.getUser = async function (req, res) {
@@ -74,24 +83,5 @@ base.getUser = async function (req, res) {
     });
 }
 
-base.delete = async function (req, res) {
-    var id = {
-        id_viagens: req.params.id_viagens
-    }
-    connection.query('DELETE FROM  viagens WHERE id_viagens = ?', [id.id_viagens], function (error, results) {
-        if (error) {
-            res.json({
-                status: false,
-                message: 'There are some error with query'
-            })
-        } else {
-            res.json({
-                status: true,
-                data: results,
-                message: 'Delete successful'
-            })
-        }
-    });
-}
 
 module.exports = base;

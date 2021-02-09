@@ -13,7 +13,7 @@
           <div class="profile-head">
             <h5>{{ user.nome }}</h5>
             <h6>{{ user.pais }}</h6>
-            <h7>{{ user.data_nasc }}</h7>
+            <h6>{{ user.data_nasc }}</h6>
             <p class="profile-email">
               EMAIL: <span>{{ user.email }}</span>
             </p>
@@ -33,7 +33,7 @@
   </div>
 </template>
 <script>
-import modal from "../components/EditProfile"
+import modal from "../components/EditProfile";
 import UserService from "../services/UserService";
 import Nav from "../components/partials/Nav";
 export default {
@@ -50,7 +50,7 @@ export default {
   },
   mounted() {
     if (this.$store.getters.getToken == "") this.$router.push("/login");
-     this.getUserData();
+    this.getUserData();
   },
   methods: {
     clickItem: function () {
@@ -95,8 +95,8 @@ body {
   text-align: center;
 }
 .profile-img img {
-  width: 70%;
-  height: 100%;
+  width: 200px;
+  height: 200px;
 }
 .profile-img .file {
   position: relative;

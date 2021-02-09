@@ -44,16 +44,9 @@ base.getAll = async function (req, res) {
         message: 'There are some error with query'
       })
     } else {
-      
-      var datas = results;
-      datas.forEach(element => {
-        base64.base64(element.img, function (err, data) {
-          element.img = data;
-        }) 
-      });
       res.json({
         status: true,
-        data: datas,
+        data: results,
         message: 'GetAll successful'
       })
     }
@@ -65,7 +58,6 @@ base.getFeedById = async function (req, res) {
   var id = {
     id_viagens: req.params.id_viagens
   }
-  console.log(id);
   connection.query('SELECT * FROM  viagens WHERE id_viagens = ?', [id.id_viagens], function (error, results) {
     if (error) {
       res.json({

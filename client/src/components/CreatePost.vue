@@ -15,80 +15,80 @@
                 <div style="padding: 10px 10px" class="submit-form">
                   <div v-if="!submitted">
                     <section class="hero">
-                        <div class="container">
-                          <div class="form-group">
-                            <label for="title">Title</label>
-                            <input
+                      <div class="container">
+                        <div class="form-group">
+                          <label for="title">Title</label>
+                          <input
+                            required
+                            v-model="post.title"
+                            type="text"
+                            class="form-control"
+                            id="title"
+                            name="title"
+                          />
+                        </div>
+                        <div class="row">
+                          <div class="col form-group">
+                            <label for="partida">Partida</label>
+                            <place-autocomplete-field
                               required
-                              v-model="post.title"
-                              type="text"
-                              class="form-control"
-                              id="title"
-                              name="title"
-                            />
+                              v-model="post.partida"
+                              placeholder="Enter starter location"
+                              name="partida"
+                              api-key="AIzaSyDThTVxOOn3GXlVb_5YyNJ2AUg3V0OoGRc"
+                              @autocomplete-select="
+                                PartidaaddressAutocompleteSearch
+                              "
+                            ></place-autocomplete-field>
                           </div>
-                          <div class="row">
-                            <div class="col form-group">
-                              <label for="partida">Partida</label>
-                              <place-autocomplete-field
-                                required
-                                v-model="post.partida"
-                                placeholder="Enter starter location"
-                                name="partida"
-                                api-key="AIzaSyDThTVxOOn3GXlVb_5YyNJ2AUg3V0OoGRc"
-                                @autocomplete-select="
-                                  PartidaaddressAutocompleteSearch
-                                "
-                              ></place-autocomplete-field>
-                            </div>
-                            <div class="col form-group">
-                              <label for="destino">Destino</label>
-                              <place-autocomplete-field
-                                required
-                                v-model="post.destino"
-                                placeholder="Enter destiny location"
-                                name="destino"
-                                api-key="AIzaSyDThTVxOOn3GXlVb_5YyNJ2AUg3V0OoGRc"
-                                @autocomplete-select="
-                                  DestinyaddressAutocompleteSearch
-                                "
-                              ></place-autocomplete-field>
-                            </div>
-                          </div>
-                          <div class="form-group">
-                            <label for="desc">Description</label>
-                            <textarea
+                          <div class="col form-group">
+                            <label for="destino">Destino</label>
+                            <place-autocomplete-field
                               required
-                              v-model="post.desc"
-                              type="text"
-                              class="form-control"
-                              id="desc"
-                              name="desc"
-                            />
-                          </div>
-                          <div class="form-group">
-                            <label for="date">Date</label>
-                            <input
-                              @change="checkDOB"
-                              v-model="post.date"
-                              type="date"
-                              class="form-control"
-                              id="date"
-                              required
-                              name="date"
-                            />
-                            <div id="datep"></div>
-                          </div>
-                          <div class="card bg-white">
-                            <img :src="image" />
-                            <input
-                              @change="handleImage"
-                              class="custom-input"
-                              type="file"
-                              accept="image/*"
-                            />
+                              v-model="post.destino"
+                              placeholder="Enter destiny location"
+                              name="destino"
+                              api-key="AIzaSyDThTVxOOn3GXlVb_5YyNJ2AUg3V0OoGRc"
+                              @autocomplete-select="
+                                DestinyaddressAutocompleteSearch
+                              "
+                            ></place-autocomplete-field>
                           </div>
                         </div>
+                        <div class="form-group">
+                          <label for="desc">Description</label>
+                          <textarea
+                            required
+                            v-model="post.desc"
+                            type="text"
+                            class="form-control"
+                            id="desc"
+                            name="desc"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label for="date">Date</label>
+                          <input
+                            @change="checkDOB"
+                            v-model="post.date"
+                            type="date"
+                            class="form-control"
+                            id="date"
+                            required
+                            name="date"
+                          />
+                          <div id="datep"></div>
+                        </div>
+                        <div class="card bg-white">
+                          <img :src="image" />
+                          <input
+                            @change="handleImage"
+                            class="custom-input"
+                            type="file"
+                            accept="image/*"
+                          />
+                        </div>
+                      </div>
                     </section>
                     <div class="container"></div>
                   </div>
@@ -98,7 +98,7 @@
                       Reset
                     </button>
                   </div>
-                  <br>
+                  <br />
                   <button @click="save" class="btn btn-dark btn-lg">
                     Submit
                   </button>
@@ -147,9 +147,6 @@ export default {
     };
   },
   methods: {
-    create(){
-      console.log(id);
-    },
     countDownChanged(dismissCountDown) {
       this.dismissCountDown = dismissCountDown;
     },
@@ -182,7 +179,8 @@ export default {
         this.post.date == "" ||
         this.post.img == ""
       ) {
-        this.showAlert();}else{
+        this.showAlert();
+      } else {
         var data = {
           id_user: this.$route.params.id,
           title: this.post.title,
@@ -198,14 +196,15 @@ export default {
         };
         console.log(data);
         FeedService.insertPost(data)
-          .then(() => {
+          .then((res) => {
             this.submitted = true;
             data = {};
+            this.$router.go();
           })
           .catch((e) => {
             console.log(e);
           });
-        }
+      }
     },
     newData() {
       this.submitted = false;

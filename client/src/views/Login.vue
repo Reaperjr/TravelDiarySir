@@ -46,12 +46,15 @@ import AuthService from "../services/AuthService";
 export default {
   data() {
     return {
+      id: "",
       email: "",
       password: "",
     };
   },
   mounted() {
-    if (this.$store.getters.getToken != "") this.$router.push({ path: `feed/${res.data[0].id_user}` });
+    var id = localStorage.getItem("id");
+    if (this.$store.getters.getToken != "")
+      this.$router.push({ path: `feed/${id}` });
   },
   methods: {
     async login() {
@@ -60,6 +63,7 @@ export default {
         password: this.password,
       };
       AuthService.login(data).then((res) => {
+        localStorage.setItem("id", res.data[0].id_user);
         this.$store.dispatch("login", res.data.token);
         this.$router.push({ path: `feed/${res.data[0].id_user}` });
       });

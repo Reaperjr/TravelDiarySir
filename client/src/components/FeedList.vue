@@ -1,10 +1,18 @@
 <template>
   <div class="events container">
-    <div class="search">
-      <input class="form-control" type="text" v-model="search" placeholder="Search" aria-label="Search"/>
-    </div>
     <div id="header">
-      <img src="../assets/logotipo_and_name.png" />
+      <div class="search">
+        <input
+          class="form-control"
+          type="text"
+          v-model="search"
+          placeholder="Search"
+          aria-label="Search"
+        />
+      </div>
+      <div>
+        <img src="../assets/logotipo_and_name.png" />
+      </div>
     </div>
     <div class="columns is-multiline">
       <div
@@ -41,10 +49,10 @@ export default {
   },
   computed: {
     filteredList() {
-      return this.feeds.filter(feed => {
-        return feed.title.toLowerCase().includes(this.search.toLowerCase())
-      })
-    }
+      return this.feeds.filter((feed) => {
+        return feed.title.toLowerCase().includes(this.search.toLowerCase());
+      });
+    },
   },
   methods: {
     async getFeedsData() {
@@ -58,6 +66,9 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.header{
+  position: sticky;
+}
 img {
   height: 15%;
   width: 15%;

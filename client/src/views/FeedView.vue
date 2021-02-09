@@ -30,8 +30,18 @@
           </div>
         </div>
       </section>
-      <div>
-        <div id="map"></div>
+      <div class="map d-flex justify-content-center">
+        <GmapMap
+          :zoom="10"
+          :center="{ lat: 10, lng: 10 }"
+          style="width: 50%; height: 400px"
+        >
+          <Directions
+            travelMode="DRIVING"
+            :origin="origin"
+            :destination="destination"
+          />
+        </GmapMap>
       </div>
     </div>
   </div>
@@ -39,119 +49,41 @@
 <script>
 import Nav from "../components/partials/Nav";
 import FeedService from "../services/FeedService";
+import Directions from "../components/Directions";
 export default {
   name: "FeedView",
   components: {
     Nav,
+    Directions,
   },
   data() {
     return {
+      partida: "",
+      destino: "",
       id: "",
-      id_viagens:"",
+      id_viagens: "",
       feed: {},
-      mapConfig: {
-        center: this.mapCenter,
-        zoom: 15,
-        styles: [
-          { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
-          {
-            elementType: "labels.text.stroke",
-            stylers: [{ color: "#242f3e" }],
-          },
-          { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
-          {
-            featureType: "administrative.locality",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#d59563" }],
-          },
-          {
-            featureType: "poi",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#d59563" }],
-          },
-          {
-            featureType: "poi.park",
-            elementType: "geometry",
-            stylers: [{ color: "#263c3f" }],
-          },
-          {
-            featureType: "poi.park",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#6b9a76" }],
-          },
-          {
-            featureType: "road",
-            elementType: "geometry",
-            stylers: [{ color: "#38414e" }],
-          },
-          {
-            featureType: "road",
-            elementType: "geometry.stroke",
-            stylers: [{ color: "#212a37" }],
-          },
-          {
-            featureType: "road",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#9ca5b3" }],
-          },
-          {
-            featureType: "road.highway",
-            elementType: "geometry",
-            stylers: [{ color: "#746855" }],
-          },
-          {
-            featureType: "road.highway",
-            elementType: "geometry.stroke",
-            stylers: [{ color: "#1f2835" }],
-          },
-          {
-            featureType: "road.highway",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#f3d19c" }],
-          },
-          {
-            featureType: "transit",
-            elementType: "geometry",
-            stylers: [{ color: "#2f3948" }],
-          },
-          {
-            featureType: "transit.station",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#d59563" }],
-          },
-          {
-            featureType: "water",
-            elementType: "geometry",
-            stylers: [{ color: "#17263c" }],
-          },
-          {
-            featureType: "water",
-            elementType: "labels.text.fill",
-            stylers: [{ color: "#515c6d" }],
-          },
-          {
-            featureType: "water",
-            elementType: "labels.text.stroke",
-            stylers: [{ color: "#17263c" }],
-          },
-        ],
-      },
     };
   },
-  mounted() {
+  beforeMount() {
     if (this.$store.getters.getToken == "") this.$router.push("/login");
-     this.getFeedData();
+    this.getFeedData();
+  },
+  computed: {
+    origin() {
+      if (!this.partida) return null;
+      return { query: this.partida };
+    },
+    destination() {
+      if (!this.destino) return null;
+      return { query: this.destino };
+    },
   },
   methods: {
-    initMap() {
-      this.map = new google.maps.Map(
-        document.getElementById("map"),
-        this.mapConfig
-      );
-    },
     delet() {
+      console.log(this.id_viagens)
       FeedService.DeletePost(this.id_viagens).then(() => {
-        this.$router.push({ path: `feed/${this.$route.params.id}` });
+        this.$router.push({ name: 'Home', params: { id: this.id} });
       });
     },
     async getFeedData() {
@@ -159,6 +91,8 @@ export default {
         ((feed) => {
           this.id = feed.data[0].id_user;
           this.id_viagens = feed.data[0].id_viagens;
+          this.partida = feed.data[0].partida;
+          this.destino = feed.data[0].destino;
           this.$set(this, "feed", feed.data[0]);
         }).bind(this)
       );
@@ -167,6 +101,10 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.map {
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
 .feed {
   margin-top: 30px;
 }

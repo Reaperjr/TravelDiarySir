@@ -18,5 +18,8 @@ export default {
     },
     register: (data) => {
         return http.post("/auth/register", data);
+    },
+    forgot: async (data) => {
+        return http.post("/auth/forgot", data);
     }
 }

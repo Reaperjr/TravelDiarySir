@@ -29,18 +29,8 @@
                           />
                         </div>
                         <div class="form-group">
-                          <label for="email">Email</label>
-                          <input
-                            v-model="post.email"
-                            type="text"
-                            class="form-control"
-                            id="email"
-                            name="email"
-                          />
-                        </div>
-                        <div class="form-group">
                           <label for="password">Password</label>
-                          <textarea
+                          <input
                             v-model="post.password"
                             type="password"
                             class="form-control"
@@ -107,7 +97,6 @@ export default {
     return {
       post: {
         nome: "",
-        email: "",
         date: "",
         pais: "",
         password: "",
@@ -137,17 +126,17 @@ export default {
         id_user: this.$route.params.id,
         nome: this.post.nome,
         password: this.post.password,
-        date: this.post.date,
-        email: this.post.email,
+        data_nasc: this.post.date,
         pais: this.post.pais,
         img: this.post.img,
       };
       console.log(data);
       UserService.EditUser(this.$route.params.id,data)
-        .then(() => {
-          this.submitted = true;
+        .then((res) => {
           data = {};
+          this.image="";
           this.myModel = false;
+          this.$router.go();
         })
         .catch((e) => {
           console.log(e);

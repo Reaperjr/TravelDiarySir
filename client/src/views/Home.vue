@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <Nav :id="this.$route.params.id" />
-    <FeedList :id="this.$route.params.id" />
+    <FeedList  :id="this.$route.params.id" />
     <modal :id="this.$route.params.id" ref="modalComponent" />
     <vue-fab :mainBtnColor="mainBtnColor" :icon="icon" :size="size">
       <fab-item

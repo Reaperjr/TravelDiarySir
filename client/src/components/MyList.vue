@@ -1,6 +1,6 @@
 <template>
   <div class="events container">
-    <div v-if="length == 0" id="header">
+    <div v-if="length == 0 " id="header">
       <h2 class="center subtitle is-3">Não tem nenhumas viagens criadas</h2>
     </div>
     <div class="columns is-multiline">
@@ -28,7 +28,7 @@ export default {
   props: ["id"],
   data() {
     return {
-      length:"",
+      length:null,
       feed: {},
       feeds: [],
     };
@@ -40,7 +40,9 @@ export default {
     async getFeedsData() {
       FeedService.getFeedUser(this.$route.params.id).then(
         ((feeds) => {
+
           this.length = feeds.data.length;
+          console.log(this.length);
           this.$set(this, "feeds", feeds.data);
         }).bind(this)
       );

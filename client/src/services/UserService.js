@@ -9,8 +9,4 @@ export default {
     let res = await http.post("/user/" + id,data);
     return res.data;
   },
-  async DeleteUser(id) {
-    let res = await http.delete("/user/" + id);
-    return res.data;
-  }
 }
