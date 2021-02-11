@@ -38,6 +38,15 @@
         <router-link to="/forgot-password">Esqueci-me password</router-link>
       </p>
     </div>
+    <b-alert
+      :show="dismissCountDown"
+      dismissible
+      variant="warning"
+      @dismissed="dismissCountDown = 0"
+      @dismiss-count-down="countDownChanged"
+    >
+      <p>{{message}}</p>
+    </b-alert>
   </div>
 </template>
 
@@ -46,9 +55,13 @@ import AuthService from "../services/AuthService";
 export default {
   data() {
     return {
+      message:"",
       id: "",
       email: "",
       password: "",
+      dismissSecs: 5,
+      dismissCountDown: 0,
+      showDismissibleAlert: false,
     };
   },
   mounted() {
@@ -57,15 +70,26 @@ export default {
       this.$router.push({ path: `feed/${id}` });
   },
   methods: {
+     countDownChanged(dismissCountDown) {
+      this.dismissCountDown = dismissCountDown;
+    },
+    showAlert() {
+      this.dismissCountDown = this.dismissSecs;
+    },
     async login() {
       var data = {
         email: this.email,
         password: this.password,
       };
       AuthService.login(data).then((res) => {
+         if(res.status==false){
+          this.message = res.message;
+          this.showAlert();
+        }else{
         localStorage.setItem("id", res.data[0].id_user);
         this.$store.dispatch("login", res.data.token);
         this.$router.push({ path: `feed/${res.data[0].id_user}` });
+        }
       });
     },
   },
